@@ -1,6 +1,6 @@
 package com.mohit.bookmarker.api;
 
-import com.mohit.bookmarker.domain.BookmarkDTO;
+import com.mohit.bookmarker.domain.BookmarksDTO;
 import com.mohit.bookmarker.domain.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class BookmarkController {
     private final BookmarkService bookmarkService;
 
     @GetMapping
-    public BookmarkDTO getBookmarks(@RequestParam(name = "page", defaultValue = "1") int page) {
+    public BookmarksDTO getBookmarks(@RequestParam(name = "page", defaultValue = "1") int page) {
         return bookmarkService.getBookmarks(page);
     }
 

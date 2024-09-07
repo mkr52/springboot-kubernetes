@@ -11,16 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
+//    private final BookmarkMapper bookmarkMapper; // mapper removed after adding DTO projections
 
     public BookmarkService(BookmarkRepository bookmarkRepository) {
         this.bookmarkRepository = bookmarkRepository;
     }
 
     @Transactional(readOnly = true)
-    public BookmarkDTO getBookmarks(int page) {
+    public BookmarksDTO getBookmarks(int page) {
         int pageNo = page < 1 ? 0 : page - 1;
         Pageable pageable = PageRequest.of(pageNo, 10, Sort.Direction.DESC, "createdAt");
-        Page<BookMark> bookMarks = bookmarkRepository.findAll(pageable);
-        return new BookmarkDTO(bookMarks);
+        Page<BookmarkDTO> bookMarks = bookmarkRepository.findAllBookMarks(pageable);
+        return new BookmarksDTO(bookMarks);
     }
 }
