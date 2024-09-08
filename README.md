@@ -5,3 +5,5 @@
 
 ### Resources
 [Spring Boot with Kubernetes](https://www.baeldung.com/spring-boot-kubernetes)
+
+[Spring JPA Query Methods](https://docs.spring.io/spring-data/jpa/reference/repositories/query-keywords-reference.html)
