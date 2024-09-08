@@ -1,5 +1,6 @@
 package com.mohit.bookmarker.domain;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
-//    private final BookmarkMapper bookmarkMapper; // mapper removed after adding DTO projections
+    private final BookmarkMapper bookmarkMapper; // mapper can be replaced by adding DTO projections
 
-    public BookmarkService(BookmarkRepository bookmarkRepository) {
+    public BookmarkService(BookmarkRepository bookmarkRepository, BookmarkMapper bookmarkMapper) {
         this.bookmarkRepository = bookmarkRepository;
+        this.bookmarkMapper = bookmarkMapper;
     }
 
     @Transactional(readOnly = true)
@@ -32,5 +34,11 @@ public class BookmarkService {
 //        Page<BookmarkDTO> bookmarks = bookmarkRepository.searchBookmarks(query, pageable);
         Page<BookmarkDTO> bookmarks = bookmarkRepository.findByTitleContainsIgnoreCase(query, pageable);
         return new BookmarksDTO(bookmarks);
+    }
+
+    public BookmarkDTO createBookmark(@Valid CreateBookmarkRequest request) {
+        BookMark bookMark = new BookMark(null, request.getTitle(), request.getUrl(), null);
+        BookMark savedBookMark = bookmarkRepository.save(bookMark);
+        return bookmarkMapper.toDTO(savedBookMark);
     }
 }
